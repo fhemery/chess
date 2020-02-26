@@ -176,6 +176,38 @@
           }
         }
       }
+    },
+    "front-lobby-lobby-page": {
+      "projectType": "library",
+      "root": "libs/front/lobby/lobby-page",
+      "sourceRoot": "libs/front/lobby/lobby-page/src",
+      "prefix": "ch-lb",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/front/lobby/lobby-page/tsconfig.lib.json",
+              "libs/front/lobby/lobby-page/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/front/lobby/lobby-page/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/front/lobby/lobby-page/jest.config.js",
+            "tsConfig": "libs/front/lobby/lobby-page/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/front/lobby/lobby-page/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "styleext": "scss"
+        }
+      }
     }
   },
   "cli": {

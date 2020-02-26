@@ -20,6 +20,9 @@
     "front-e2e": {
       "tags": [],
       "implicitDependencies": ["front"]
+    },
+    "front-lobby-lobby-page": {
+      "tags": ["scope:front", "type:feature"]
     }
   }
 }

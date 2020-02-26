@@ -15,7 +15,11 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@chess/lobby-page": [
+        "libs/front/lobby/lobby-page/src/index.ts"
+      ]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
