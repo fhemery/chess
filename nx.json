@@ -10,5 +10,16 @@
     "tslint.json": "*",
     "nx.json": "*"
   },
-  "projects": {}
+  "projects": {
+    "back": {
+      "tags": []
+    },
+    "front": {
+      "tags": ["type:app", "scope:front"]
+    },
+    "front-e2e": {
+      "tags": [],
+      "implicitDependencies": ["front"]
+    }
+  }
 }
