@@ -25,7 +25,10 @@
       "tags": ["scope:front", "type:feature"]
     },
     "shared-types": {
-      "tags": ["scope:shared type:types"]
+      "tags": ["scope:shared", "type:types"]
+    },
+    "back-user": {
+      "tags": []
     }
   }
 }
