@@ -16,9 +16,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@chess/lobby-page": [
-        "libs/front/lobby/lobby-page/src/index.ts"
-      ]
+      "@chess/lobby-page": ["libs/front/lobby/lobby-page/src/index.ts"],
+      "@chess/shared/types": ["libs/shared/types/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

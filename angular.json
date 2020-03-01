@@ -208,6 +208,21 @@
           "styleext": "scss"
         }
       }
+    },
+    "shared-types": {
+      "root": "libs/shared/types",
+      "sourceRoot": "libs/shared/types/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["libs/shared/types/tsconfig.lib.json"],
+            "exclude": ["**/node_modules/**", "!libs/shared/types/**"]
+          }
+        }
+      }
     }
   },
   "cli": {
