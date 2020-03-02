@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LobbyPageComponent } from './lobby-page.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('LobbyPageComponent', () => {
   let component: LobbyPageComponent;
@@ -8,7 +9,8 @@ describe('LobbyPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LobbyPageComponent ]
+      declarations: [ LobbyPageComponent ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
     .compileComponents();
   }));
