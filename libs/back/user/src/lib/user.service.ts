@@ -22,7 +22,10 @@ export class UserService {
     const newId = UserService.generateRandomUserKey();
     const user = { id: newId, name: username };
     this.users.push(newId, user);
-    console.log('returning ', user);
     return user;
+  }
+
+  public getById(userId: string): User {
+    return this.users.find(u => u.id === userId) || null;
   }
 }

@@ -45,4 +45,15 @@ describe('UserService', () => {
       expect(service.checkById(user.id)).toBe(true);
     });
   });
+
+  describe('getById', () => {
+    it('should return null for unknown user', () => {
+      expect(service.getById('123')).toBe(null);
+    });
+
+    it('should return user for user already in the map', () => {
+      const user = service.register('Bob');
+      expect(service.getById(user.id)).toEqual(user);
+    });
+  });
 });
