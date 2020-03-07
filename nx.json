@@ -29,6 +29,9 @@
     },
     "back-user": {
       "tags": []
+    },
+    "back-game": {
+      "tags": ["scope:back", "type:feature"]
     }
   }
 }
