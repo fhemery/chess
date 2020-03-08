@@ -15,4 +15,8 @@ export class ChannelService {
     this.channelRepository.registerSocket(userId, client);
     this.channelRepository.sendEvent(userId, { event: GameEventName.AUTH_OK });
   }
+
+  public getUserIdFromSocketId(socketId: string): string {
+    return this.channelRepository.getUserIdFromSocketId(socketId);
+  }
 }

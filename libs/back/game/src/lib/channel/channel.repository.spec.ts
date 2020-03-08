@@ -20,4 +20,15 @@ describe('ChannelRepository', () => {
       expect(socketMock.emit).toHaveBeenCalledWith('hi', undefined);
     });
   });
+
+  describe('getUserIdFromSocketId', () => {
+    it('should return the correct user id', () => {
+      const socket = { id: 'abc' } as Socket;
+      channelRepository.registerSocket('123', socket);
+
+      const result = channelRepository.getUserIdFromSocketId('abc');
+
+      expect(result).toBe('123');
+    })
+  })
 });

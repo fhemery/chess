@@ -7,7 +7,8 @@ describe('channelService', () => {
   beforeEach(() => {
     channelRepository = {
       registerSocket: jest.fn(),
-      sendEvent: jest.fn()
+      sendEvent: jest.fn(),
+      getUserIdFromSocketId: jest.fn()
     };
     channelService = new ChannelService(channelRepository);
   });
@@ -38,6 +39,13 @@ describe('channelService', () => {
         '123',
         eventToSend
       );
+    });
+  });
+
+  describe('getUserIdFromSocketId', () => {
+    it('should call service', () => {
+      channelService.getUserIdFromSocketId('123');
+      expect(channelRepository.getUserIdFromSocketId).toHaveBeenCalled();
     });
   });
 });
