@@ -20,7 +20,9 @@
       "@chess/shared/types": ["libs/shared/types/src/index.ts"],
       "@chess/back/user": ["libs/back/user/src/index.ts"],
       "@chess/front/user": ["libs/front/user/src/index.ts"],
-      "@chess/back/game": ["libs/back/game/src/index.ts"]
+      "@chess/back/game": ["libs/back/game/src/index.ts"],
+      "@chess/front/communication": ["libs/front/communication/src/index.ts"],
+      "@chess/front/game/game-page": ["libs/front/game/game-page/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

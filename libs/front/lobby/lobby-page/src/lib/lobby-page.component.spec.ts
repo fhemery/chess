@@ -2,24 +2,34 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LobbyPageComponent } from './lobby-page.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { Socket } from 'ngx-socket-io';
 import { GameEventName } from '@chess/shared/types';
+import { Subject } from 'rxjs';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Router } from '@angular/router';
+import SpyInstance = jest.SpyInstance;
+import { CommunicationService } from '@chess/front/communication';
 
 describe('LobbyPageComponent', () => {
   let component: LobbyPageComponent;
   let fixture: ComponentFixture<LobbyPageComponent>;
-  let socketMock: any;
+  let communicationServiceMock: any;
 
   beforeEach(() => {
-    socketMock = { emit: jest.fn(), on: jest.fn() };
+    communicationServiceMock = {
+      sendEvent: jest.fn(),
+      listenToEvent: jest.fn()
+    };
     TestBed.configureTestingModule({
-      declarations: [ LobbyPageComponent ],
-      providers: [{
-        provide: Socket,
-        useValue: socketMock
-      }],
+      declarations: [LobbyPageComponent],
+      imports: [RouterTestingModule],
+      providers: [
+        {
+          provide: CommunicationService,
+          useValue: communicationServiceMock
+        }
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
-    })
+    });
   });
 
   beforeEach(() => {
@@ -32,10 +42,81 @@ describe('LobbyPageComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should not be searching', () => {
+    expect(component.isSearchOngoing).toBe(false);
+  });
+
   describe('searchgame', () => {
-    it('should authenticate user by the server', () => {
+    let listenSubject: Subject<void>;
+    beforeEach(() => {
+      listenSubject = new Subject<void>();
+      communicationServiceMock.listenToEvent.mockReturnValue(listenSubject);
       component.searchGame('bob');
-      expect(socketMock.emit).toHaveBeenCalledWith(GameEventName.AUTH, 'bob');
     });
-  })
+
+    it('should set search to be ongoing', () => {
+      expect(component.isSearchOngoing).toBe(true);
+    });
+
+    it('should authenticate user by the server', () => {
+      expect(communicationServiceMock.sendEvent).toHaveBeenCalledWith(
+        GameEventName.AUTH,
+        'bob'
+      );
+    });
+
+    it('should listen to auth_OK event and send back searchGame', () => {
+      expect(communicationServiceMock.listenToEvent).toHaveBeenCalledWith(
+        GameEventName.AUTH_OK
+      );
+    });
+
+    describe('when authentication is ok', () => {
+      beforeEach(() => {
+        listenSubject.next();
+      });
+
+      it('should send a game search event', () => {
+        expect(communicationServiceMock.sendEvent).toHaveBeenCalledWith(
+          GameEventName.GAME_SEARCH
+        );
+      });
+
+      it('should subscribe to game:found', () => {
+        expect(communicationServiceMock.listenToEvent).toHaveBeenCalledWith(
+          GameEventName.GAME_FOUND
+        );
+      });
+
+      describe('when game is found', () => {
+        let navigateSpy: SpyInstance;
+        beforeEach(() => {
+          navigateSpy = jest.spyOn(TestBed.inject(Router), 'navigateByUrl');
+          navigateSpy.mockImplementation(() => {});
+
+          listenSubject.next();
+        });
+
+        it('should redirect to game page', () => {
+          expect(navigateSpy).toHaveBeenCalledWith('game');
+        });
+      });
+    });
+  });
+
+  describe('cancelSearch', function() {
+    it('should emit search cancel', () => {
+      component.cancelSearch();
+      expect(communicationServiceMock.sendEvent).toHaveBeenCalledWith(
+        GameEventName.GAME_SEARCH_CANCEL
+      );
+    });
+
+    it('should set searchOngoing to false', () => {
+      component.isSearchOngoing = true;
+      component.cancelSearch();
+
+      expect(component.isSearchOngoing).toBe(false);
+    });
+  });
 });

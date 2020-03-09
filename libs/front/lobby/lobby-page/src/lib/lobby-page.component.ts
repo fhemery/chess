@@ -1,6 +1,14 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { Socket } from 'ngx-socket-io';
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  OnDestroy
+} from '@angular/core';
 import { GameEventName } from '@chess/shared/types';
+import { Subject } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { CommunicationService } from '@chess/front/communication';
 
 @Component({
   selector: 'ch-lb-lobby-page',
@@ -8,16 +16,48 @@ import { GameEventName } from '@chess/shared/types';
   styleUrls: ['./lobby-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LobbyPageComponent implements OnInit {
-  constructor(private readonly socket: Socket) {}
+export class LobbyPageComponent implements OnInit, OnDestroy {
+  public isSearchOngoing = false;
 
-  ngOnInit(): void {
-    this.socket.on(GameEventName.AUTH_OK, () => {
-      console.log('ok, we are all set');
-    });
+  private unsubscribe$ = new Subject<void>();
+
+  constructor(
+    private readonly communicationService: CommunicationService,
+    private readonly router: Router
+  ) {}
+
+  public ngOnInit(): void {}
+
+  public ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
-  searchGame($event: string) {
-    this.socket.emit('auth', $event);
+  public searchGame($event: string) {
+    this.isSearchOngoing = true;
+    this.communicationService.sendEvent(GameEventName.AUTH, $event);
+    this.communicationService
+      .listenToEvent(GameEventName.AUTH_OK)
+      .pipe(
+        take(1),
+        takeUntil(this.unsubscribe$)
+      )
+      .subscribe(() => {
+        this.communicationService.sendEvent(GameEventName.GAME_SEARCH);
+        this.communicationService
+          .listenToEvent(GameEventName.GAME_FOUND)
+          .pipe(
+            take(1),
+            takeUntil(this.unsubscribe$)
+          )
+          .subscribe(() => {
+            this.router.navigateByUrl('game');
+          });
+      });
+  }
+
+  public cancelSearch() {
+    this.communicationService.sendEvent(GameEventName.GAME_SEARCH_CANCEL);
+    this.isSearchOngoing = false;
   }
 }

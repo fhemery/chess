@@ -1,1 +1,2 @@
-<ch-lb-game-search (searchGame)="searchGame($event)"></ch-lb-game-search>
+<ch-lb-game-search (searchGame)="searchGame($event)" *ngIf="!isSearchOngoing"></ch-lb-game-search>
+<ch-lb-game-searching (cancelSearch)="cancelSearch()" *ngIf="isSearchOngoing"></ch-lb-game-searching>

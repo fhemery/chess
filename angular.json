@@ -275,6 +275,70 @@
           }
         }
       }
+    },
+    "front-communication": {
+      "projectType": "library",
+      "root": "libs/front/communication",
+      "sourceRoot": "libs/front/communication/src",
+      "prefix": "chess",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/front/communication/tsconfig.lib.json",
+              "libs/front/communication/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/front/communication/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/front/communication/jest.config.js",
+            "tsConfig": "libs/front/communication/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/front/communication/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "styleext": "scss"
+        }
+      }
+    },
+    "front-game-game-page": {
+      "projectType": "library",
+      "root": "libs/front/game/game-page",
+      "sourceRoot": "libs/front/game/game-page/src",
+      "prefix": "ch-ga",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/front/game/game-page/tsconfig.lib.json",
+              "libs/front/game/game-page/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/front/game/game-page/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/front/game/game-page/jest.config.js",
+            "tsConfig": "libs/front/game/game-page/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/front/game/game-page/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "styleext": "scss"
+        }
+      }
     }
   },
   "cli": {

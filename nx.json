@@ -32,6 +32,12 @@
     },
     "back-game": {
       "tags": ["scope:back", "type:feature"]
+    },
+    "front-communication": {
+      "tags": ["scope:front", "type:data"]
+    },
+    "front-game-game-page": {
+      "tags": ["scope:front", "type:feature"]
     }
   }
 }

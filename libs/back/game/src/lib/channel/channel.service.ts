@@ -8,6 +8,7 @@ export class ChannelService {
   constructor(private readonly channelRepository: ChannelRepository) {}
 
   public sendEvent(userId: string, event: GameEvent) {
+    console.log('Sending event', event, 'to', userId);
     return this.channelRepository.sendEvent(userId, event);
   }
 
