@@ -1,19 +1,24 @@
 import { MatchMakingService } from './match-making.service';
+import { GameEventName } from '@chess/shared/types';
 
 describe('MatchMaking service', () => {
   let matchMakingService: MatchMakingService;
   let gameSearchServiceMock: any;
   let gameServiceMock: any;
+  let channelService: any;
 
   beforeEach(() => {
     gameSearchServiceMock = {
       getWaitingList: jest.fn(),
       removeFromWaitingList: jest.fn()
     };
-    gameServiceMock = { createMatch: jest.fn() };
+    gameServiceMock = { createGame: jest.fn() };
+    channelService = { sendEvent: jest.fn() };
+
     matchMakingService = new MatchMakingService(
       gameSearchServiceMock,
-      gameServiceMock
+      gameServiceMock,
+      channelService
     );
   });
 
@@ -23,7 +28,7 @@ describe('MatchMaking service', () => {
 
       matchMakingService.performMatchMaking();
 
-      expect(gameServiceMock.createMatch).not.toHaveBeenCalled();
+      expect(gameServiceMock.createGame).not.toHaveBeenCalled();
     });
 
     it('should do nothing if there is only one player', () => {
@@ -31,26 +36,39 @@ describe('MatchMaking service', () => {
 
       matchMakingService.performMatchMaking();
 
-      expect(gameServiceMock.createMatch).not.toHaveBeenCalled();
+      expect(gameServiceMock.createGame).not.toHaveBeenCalled();
     });
 
-    it('should create a match if there are two players', () => {
-      gameSearchServiceMock.getWaitingList.mockReturnValue(['bob', 'andy']);
-      matchMakingService.performMatchMaking();
-      expect(gameServiceMock.createMatch).toHaveBeenCalledWith('bob', 'andy');
-    });
+    describe('when there are two players', () => {
+      beforeEach(() => {
+        gameSearchServiceMock.getWaitingList.mockReturnValue(['bob', 'andy']);
+        gameServiceMock.createGame.mockReturnValue({});
+        matchMakingService.performMatchMaking();
+      });
 
-    it('should remove the two players from the list', () => {
-      gameSearchServiceMock.getWaitingList.mockReturnValue(['bob', 'andy']);
-      matchMakingService.performMatchMaking();
-      expect(gameSearchServiceMock.removeFromWaitingList).toHaveBeenCalledWith(
-        'bob',
-        true
-      );
-      expect(gameSearchServiceMock.removeFromWaitingList).toHaveBeenCalledWith(
-        'andy',
-        true
-      );
+      it('should create a match if there are two players', () => {
+        expect(gameServiceMock.createGame).toHaveBeenCalledWith('bob', 'andy');
+      });
+
+      it('should remove the two players from the list', () => {
+        expect(
+          gameSearchServiceMock.removeFromWaitingList
+        ).toHaveBeenCalledWith('bob', true);
+        expect(
+          gameSearchServiceMock.removeFromWaitingList
+        ).toHaveBeenCalledWith('andy', true);
+      });
+
+      it('should warn the two players that match is started', () => {
+        expect(channelService.sendEvent).toHaveBeenCalledWith('bob', {
+          event: GameEventName.GAME_FOUND,
+          data: expect.anything()
+        });
+        expect(channelService.sendEvent).toHaveBeenCalledWith('andy', {
+          event: GameEventName.GAME_FOUND,
+          data: expect.anything()
+        });
+      });
     });
 
     it('should create matches as long as there are player pairs', () => {
@@ -63,7 +81,7 @@ describe('MatchMaking service', () => {
       ]);
       matchMakingService.performMatchMaking();
 
-      expect(gameServiceMock.createMatch).toHaveBeenCalledTimes(2);
+      expect(gameServiceMock.createGame).toHaveBeenCalledTimes(2);
       expect(gameSearchServiceMock.removeFromWaitingList).toHaveBeenCalledTimes(
         4
       );

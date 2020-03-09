@@ -3,13 +3,9 @@ export interface User {
   id: string;
 }
 
-export interface Game {
-  id: string;
-  whitePlayer: User;
-  blackPlayer: User;
-}
-
 export interface GameEvent {
   event: string;
   data?: any;
 }
+
+export type UserId = string;

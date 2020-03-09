@@ -14,7 +14,7 @@ export class GameSearchService {
 
   public addToWaitingList(userId: string): boolean {
     if (
-      this.gameRepository.isPlayerAlreadyInAMatch(userId) ||
+      this.gameRepository.isPlayerAlreadyInGame(userId) ||
       !!this.awaitingList.find(e => e === userId)
     ) {
       this.channelService.sendEvent(userId, {
@@ -22,6 +22,7 @@ export class GameSearchService {
       });
       return false;
     }
+    console.log('adding', userId, 'to awaiting list');
     this.awaitingList.push(userId);
     this.channelService.sendEvent(userId, {
       event: GameEventName.GAME_SEARCH_OK

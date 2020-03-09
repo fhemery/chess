@@ -8,7 +8,7 @@ describe('gameSearchService', () => {
 
   beforeEach(() => {
     gameRepoMock = {
-      isPlayerAlreadyInAMatch: jest.fn()
+      isPlayerAlreadyInGame: jest.fn()
     };
     channelMock = {
       sendEvent: jest.fn()
@@ -24,7 +24,7 @@ describe('gameSearchService', () => {
   describe('addToMatchSearch', () => {
     it('should return false and emit GAME_SEARCH_KO if user is already in a match', () => {
       const userId = 'bob';
-      gameRepoMock.isPlayerAlreadyInAMatch.mockReturnValue(true);
+      gameRepoMock.isPlayerAlreadyInGame.mockReturnValue(true);
 
       const result = gameSearchService.addToWaitingList(userId);
 
@@ -48,7 +48,7 @@ describe('gameSearchService', () => {
     describe('when user is valid', () => {
       it('should return true and add user to waiting list', () => {
         const userId = 'henri';
-        gameRepoMock.isPlayerAlreadyInAMatch.mockReturnValue(false);
+        gameRepoMock.isPlayerAlreadyInGame.mockReturnValue(false);
 
         const result = gameSearchService.addToWaitingList(userId);
         expect(result).toBe(true);
@@ -57,7 +57,7 @@ describe('gameSearchService', () => {
 
       it('should emit GAME_SEARCH_OK', () => {
         const userId = 'mark';
-        gameRepoMock.isPlayerAlreadyInAMatch.mockReturnValue(false);
+        gameRepoMock.isPlayerAlreadyInGame.mockReturnValue(false);
 
         gameSearchService.addToWaitingList(userId);
         expect(channelMock.sendEvent).toHaveBeenCalledWith(userId, {
