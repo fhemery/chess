@@ -46,6 +46,7 @@
     "@nestjs/core": "^6.8.3",
     "@nestjs/platform-express": "^6.8.3",
     "@nestjs/platform-socket.io": "^6.11.11",
+    "@nestjs/schedule": "^0.2.0",
     "@nestjs/websockets": "^6.11.11",
     "@nrwl/angular": "^9.0.3",
     "core-js": "^2.5.4",

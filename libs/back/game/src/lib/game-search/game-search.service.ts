@@ -33,8 +33,13 @@ export class GameSearchService {
     return this.awaitingList;
   }
 
-  public removeFromWaitingList(userId): void {
+  public removeFromWaitingList(userId, notifyUser: boolean = true): void {
     this.awaitingList = this.awaitingList.filter(u => u !== userId);
+
+    if(!notifyUser) {
+      return;
+    }
+
     this.channelService.sendEvent(userId, {
       event: GameEventName.GAME_SEARCH_CANCELLED
     });

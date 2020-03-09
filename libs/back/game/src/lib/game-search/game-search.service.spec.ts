@@ -74,11 +74,16 @@ describe('gameSearchService', () => {
   });
 
   describe('removeFromWaitingList', () => {
-    it('should emit GAME_SEARCH_CANCELLED even if user is not on waiting list', () => {
+    it('should emit GAME_SEARCH_CANCELLED by default even if user is not on waiting list', () => {
       gameSearchService.removeFromWaitingList('anna');
       expect(channelMock.sendEvent).toHaveBeenCalledWith('anna', {
         event: GameEventName.GAME_SEARCH_CANCELLED
       });
+    });
+
+    it('should not emit GAME_SEARCH_CANCELLED if notification is disabled', () => {
+      gameSearchService.removeFromWaitingList('anna', false);
+      expect(channelMock.sendEvent).not.toHaveBeenCalled();
     });
 
     it('should remove user from waiting list if he was in', () => {

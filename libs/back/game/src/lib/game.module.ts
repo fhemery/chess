@@ -4,8 +4,9 @@ import { ChannelService } from './channel/channel.service';
 import { ChannelRepository } from './channel/channel.repository';
 import { GameSearchService } from './game-search/game-search.service';
 import { GameService } from './game/game.service';
+import { MatchMakingService } from './match-making/match-making.service';
 
 @Module({
-  providers: [GameGateway, ChannelService, ChannelRepository, GameSearchService, GameService],
+  providers: [GameGateway, ChannelService, ChannelRepository, GameSearchService, GameService, MatchMakingService],
 })
 export class GameModule {}
