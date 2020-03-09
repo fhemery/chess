@@ -9,6 +9,7 @@ import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { CommunicationService } from '@chess/front/communication';
+import { UserService } from '@chess/front/user';
 
 @Component({
   selector: 'ch-lb-lobby-page',
@@ -23,7 +24,8 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly communicationService: CommunicationService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly userService: UserService
   ) {}
 
   public ngOnInit(): void {}
@@ -35,6 +37,7 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
 
   public searchGame($event: string) {
     this.isSearchOngoing = true;
+    this.userService.setUser({id: $event, name: $event});
     this.communicationService.sendEvent(GameEventName.AUTH, $event);
     this.communicationService
       .listenToEvent(GameEventName.AUTH_OK)

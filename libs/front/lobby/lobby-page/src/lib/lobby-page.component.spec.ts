@@ -8,16 +8,21 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 import SpyInstance = jest.SpyInstance;
 import { CommunicationService } from '@chess/front/communication';
+import { UserService } from '@chess/front/user';
 
 describe('LobbyPageComponent', () => {
   let component: LobbyPageComponent;
   let fixture: ComponentFixture<LobbyPageComponent>;
   let communicationServiceMock: any;
+  let userServiceMock: any;
 
   beforeEach(() => {
     communicationServiceMock = {
       sendEvent: jest.fn(),
       listenToEvent: jest.fn()
+    };
+    userServiceMock = {
+      setUser: jest.fn()
     };
     TestBed.configureTestingModule({
       declarations: [LobbyPageComponent],
@@ -26,6 +31,10 @@ describe('LobbyPageComponent', () => {
         {
           provide: CommunicationService,
           useValue: communicationServiceMock
+        },
+        {
+          provide: UserService,
+          useValue: userServiceMock
         }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]

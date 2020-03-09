@@ -38,6 +38,9 @@
     },
     "front-game-game-page": {
       "tags": ["scope:front", "type:feature"]
+    },
+    "front-user": {
+      "tags": ["scope:front", "type:data"]
     }
   }
 }

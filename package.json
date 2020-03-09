@@ -51,6 +51,7 @@
     "@nrwl/angular": "^9.0.3",
     "core-js": "^2.5.4",
     "lodash": "^4.17.15",
+    "ngx-cookie-service": "^2.4.0",
     "ngx-socket-io": "^3.0.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "~6.5.0",

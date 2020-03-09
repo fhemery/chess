@@ -1,0 +1,7 @@
+<div class="chessboard">
+  <div class="row" *ngFor="let row of rows">
+    <div class="col" *ngFor="let column of columns">
+      <ch-ga-game-chess-cell [name]="column+row" [piece]="board[column+row]"></ch-ga-game-chess-cell>
+    </div>
+  </div>
+</div>

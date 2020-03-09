@@ -1,1 +1,11 @@
-<p>game-page works!</p>
+<div class="game-stage" *ngIf="game">
+  <div class="opponent-side">
+    <ch-ga-game-player [playerColor]="game.opponentColor" [playerName]="game.opponentName" [isPlayerTurn]="!game.isMyTurn"></ch-ga-game-player>
+  </div>
+  <div class="chessboard">
+    <ch-ga-game-chessboard [board]="game.board"  [topColor]="game.opponentColor"></ch-ga-game-chessboard>
+  </div>
+  <div class="player-side">
+    <ch-ga-game-player [playerColor]="game.playAs" [playerName]="game.myName" [isPlayerTurn]="game.isMyTurn"></ch-ga-game-player>
+  </div>
+</div>

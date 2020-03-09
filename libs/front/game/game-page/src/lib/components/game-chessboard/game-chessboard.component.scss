@@ -1,0 +1,14 @@
+.chessboard {
+  border: 3px solid black;
+}
+
+.row {
+  display:flex;
+  height: 48px;
+  width: 48px;
+}
+
+.col {
+  height: 48px;
+  width: 48px;
+}

@@ -339,6 +339,38 @@
           "styleext": "scss"
         }
       }
+    },
+    "front-user": {
+      "projectType": "library",
+      "root": "libs/front/user",
+      "sourceRoot": "libs/front/user/src",
+      "prefix": "chess",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/front/user/tsconfig.lib.json",
+              "libs/front/user/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/front/user/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/front/user/jest.config.js",
+            "tsConfig": "libs/front/user/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/front/user/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "styleext": "scss"
+        }
+      }
     }
   },
   "cli": {
