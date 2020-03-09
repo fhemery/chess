@@ -22,7 +22,6 @@ export class GameSearchService {
       });
       return false;
     }
-    console.log('adding', userId, 'to awaiting list');
     this.awaitingList.push(userId);
     this.channelService.sendEvent(userId, {
       event: GameEventName.GAME_SEARCH_OK

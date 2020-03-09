@@ -5,6 +5,7 @@ describe('GameGateway', () => {
   let gameGateway: GameGateway;
   let channelService: any;
   let gameSearchService: any;
+  let gameStatusService: any;
 
   beforeEach(() => {
     channelService = { authenticate: jest.fn() };
@@ -12,7 +13,12 @@ describe('GameGateway', () => {
       addToWaitingList: jest.fn(),
       removeFromWaitingList: jest.fn()
     };
-    gameGateway = new GameGateway(channelService, gameSearchService);
+    gameStatusService = { getStatus: jest.fn() };
+    gameGateway = new GameGateway(
+      channelService,
+      gameSearchService,
+      gameStatusService
+    );
   });
 
   describe('authenticate', () => {
@@ -36,6 +42,13 @@ describe('GameGateway', () => {
       expect(gameSearchService.removeFromWaitingList).toHaveBeenCalledWith(
         '123'
       );
+    });
+  });
+
+  describe('getStatus', () => {
+    it('should call the game status service', () => {
+      gameGateway.getStatus(({ userId: '123' } as unknown) as Socket);
+      expect(gameStatusService.getStatus).toHaveBeenCalledWith('123');
     });
   });
 });

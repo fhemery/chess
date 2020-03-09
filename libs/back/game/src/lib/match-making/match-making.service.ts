@@ -16,9 +16,7 @@ export class MatchMakingService {
   @Cron(CronExpression.EVERY_5_SECONDS)
   public performMatchMaking() {
     let remainingPlayers = this.gameSearchService.getWaitingList();
-    console.log('Match making started', remainingPlayers);
     while(remainingPlayers.length >= 2) {
-      console.log('creating a game');
       const [player1, player2] = remainingPlayers;
       remainingPlayers = remainingPlayers.slice(2);
       const board = this.gameService.createGame(player1, player2);

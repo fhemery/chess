@@ -7,4 +7,7 @@ export const enum GameEventName {
   GAME_SEARCH_CANCEL = 'game:search:cancel',
   GAME_SEARCH_CANCELLED = 'game:search:cancelled',
   GAME_FOUND = 'game:found',
+  GAME_STATUS = 'game:status',
+  GAME_STATUS_UPDATE = 'game:status:update',
+  GAME_STATUS_KO = 'game:status:ko'
 }

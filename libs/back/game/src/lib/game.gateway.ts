@@ -11,6 +11,7 @@ import { GameEventName } from '@chess/shared/types';
 import { UseInterceptors } from '@nestjs/common';
 import { SocketAuthInterceptor } from './socket-auth-interceptor';
 import { GameSearchService } from './game-search/game-search.service';
+import { GameStatusService } from './game-status/game-status.service';
 
 @WebSocketGateway(3000)
 @UseInterceptors(SocketAuthInterceptor)
@@ -20,7 +21,8 @@ export class GameGateway {
 
   constructor(
     private readonly channelService: ChannelService,
-    private readonly gameSearchService: GameSearchService
+    private readonly gameSearchService: GameSearchService,
+    private readonly gameStatusService: GameStatusService
   ) {}
 
   @SubscribeMessage(GameEventName.AUTH)
@@ -39,5 +41,10 @@ export class GameGateway {
   @SubscribeMessage(GameEventName.GAME_SEARCH_CANCEL)
   public cancelGameSearch(@ConnectedSocket() client: Socket): void {
     this.gameSearchService.removeFromWaitingList(client['userId']);
+  }
+
+  @SubscribeMessage(GameEventName.GAME_STATUS)
+  public getStatus(@ConnectedSocket() client: Socket): void {
+    this.gameStatusService.getStatus(client['userId']);
   }
 }
