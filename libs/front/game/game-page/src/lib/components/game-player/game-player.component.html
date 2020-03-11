@@ -1,0 +1,7 @@
+<div class="player-turn" *ngIf="isPlayerTurn">{{playerColor}} to play</div>
+<div class="player">
+  <div class="player-color">
+    <img [src]="getOpponentImage()" [alt]="playerColor">
+  </div>
+  <div class="player-name">{{playerName}}</div>
+</div>

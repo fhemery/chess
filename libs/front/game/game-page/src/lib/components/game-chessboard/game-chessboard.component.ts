@@ -23,4 +23,9 @@ export class GameChessboardComponent implements OnInit {
     }
   }
 
+  public getColor(column: string, row: string): PlayerColor {
+    const add =  (this.rows.indexOf(row) + this.columns.indexOf(column)) % 2;
+    return add === 0 ? PlayerColor.BLACK : PlayerColor.WHITE;
+  }
+
 }

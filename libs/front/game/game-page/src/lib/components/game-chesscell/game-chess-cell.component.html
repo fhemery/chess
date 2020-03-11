@@ -1,3 +1,4 @@
-<div class="cell">
-  <img *ngIf="piece" [src]="getPieceImage()" class="piece" alt="piece">
+<div [class]="'cell ' + color">
+  <img *ngIf="piece" [src]="getPieceImage()" class="piece" alt="piece" />
+  &nbsp;
 </div>

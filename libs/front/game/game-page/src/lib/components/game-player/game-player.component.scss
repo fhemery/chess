@@ -1,0 +1,24 @@
+.player-turn {
+  text-align: center;
+  font-size: 1.6em;
+  font-weight: bold;
+}
+
+.player {
+  display:flex;
+  justify-content: center;
+  align-content: center;
+  align-content: center;
+
+  .player-name {
+    font-size: 1.3em;
+    line-height: 48px;
+  }
+}
+
+.player-color {
+
+  img {
+    width: 48px;
+  }
+}

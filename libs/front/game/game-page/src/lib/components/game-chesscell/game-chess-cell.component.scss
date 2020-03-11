@@ -4,7 +4,17 @@
 
   text-align: center;
   vertical-align: center;
+  border: 1px solid gray;
 }
 .piece {
+  padding: 8px;
   width: 32px;
+}
+
+.Black {
+  background : gray;
+}
+
+.White {
+  background: white;
 }

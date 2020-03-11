@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
-import { GamePiece } from '@chess/shared/types';
+import { GamePiece, PlayerColor } from '@chess/shared/types';
 
 @Component({
   selector: 'ch-ga-game-chess-cell',
@@ -9,6 +9,7 @@ import { GamePiece } from '@chess/shared/types';
 })
 export class GameChessCellComponent implements OnInit {
 
+  @Input() color: PlayerColor;
   @Input() name: string;
   @Input() piece: GamePiece;
 

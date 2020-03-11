@@ -4,11 +4,13 @@
 
 .row {
   display:flex;
-  height: 48px;
-  width: 48px;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  align-content: center;
 }
 
 .col {
-  height: 48px;
-  width: 48px;
+  min-height: 48px;
+  min-width: 48px;
 }
