@@ -371,6 +371,32 @@
           "styleext": "scss"
         }
       }
+    },
+    "shared-chess-utils": {
+      "root": "libs/shared/chess-utils",
+      "sourceRoot": "libs/shared/chess-utils/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/shared/chess-utils/tsconfig.lib.json",
+              "libs/shared/chess-utils/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/shared/chess-utils/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/chess-utils/jest.config.js",
+            "tsConfig": "libs/shared/chess-utils/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   },
   "cli": {

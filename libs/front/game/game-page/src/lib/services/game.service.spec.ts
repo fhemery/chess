@@ -110,4 +110,14 @@ describe('GameService', () => {
       });
     });
   });
+
+  describe('sendMove', () => {
+    it('should send the move to the server', () => {
+      service.sendMove('a2', 'b4');
+      expect(communicationServiceMock.sendEvent).toHaveBeenCalledWith(
+        GameEventName.GAME_MOVE,
+        { origin: 'a2', destination: 'b4' }
+      );
+    });
+  });
 });

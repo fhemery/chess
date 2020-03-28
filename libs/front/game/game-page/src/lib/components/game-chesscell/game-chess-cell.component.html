@@ -1,4 +1,4 @@
-<div [class]="'cell ' + color">
+<div [class]="'cell ' + color" (click)="onCellClicked()" [ngClass]="{'isSelected': isSelected}">
   <img *ngIf="piece" [src]="getPieceImage()" class="piece" alt="piece" />
   &nbsp;
 </div>

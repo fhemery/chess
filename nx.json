@@ -41,6 +41,9 @@
     },
     "front-user": {
       "tags": ["scope:front", "type:data"]
+    },
+    "shared-chess-utils": {
+      "tags": ["scope:shared", "type:util"]
     }
   }
 }

@@ -11,6 +11,10 @@
   width: 32px;
 }
 
+.cell.isSelected {
+  background-color: rgba(0,255,0, 0.1);
+}
+
 .Black {
   background : gray;
 }

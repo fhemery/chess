@@ -1,8 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  async,
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick
+} from '@angular/core/testing';
 
 import { GameChessboardComponent } from './game-chessboard.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { PlayerColor } from '@chess/shared/types';
+import { take } from 'rxjs/operators';
 
 describe('GameChessboardComponent', () => {
   let component: GameChessboardComponent;
@@ -10,10 +17,9 @@ describe('GameChessboardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GameChessboardComponent ],
+      declarations: [GameChessboardComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
-    })
-    .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -36,5 +42,27 @@ describe('GameChessboardComponent', () => {
       expect(component.getColor('b', '1')).toBe(PlayerColor.WHITE);
       expect(component.getColor('e', '4')).toBe(PlayerColor.WHITE);
     });
-  })
+  });
+
+  describe('onCellClicked', () => {
+    it('should forward clicked cell to parent component', fakeAsync(() => {
+      let cell = '';
+      component.cellClicked.pipe(take(1)).subscribe(n => (cell = n));
+      component.onCellClicked('c3');
+      tick();
+      expect(cell).toBe('c3');
+    }));
+  });
+
+  describe('isSelectedCell', () => {
+    it('should return true if cell coordinates and selected cell matches', () => {
+      component.selectedCell = 'a2';
+      expect(component.isSelectedCell('a', '2')).toBe(true);
+    });
+
+    it('should return false else', () => {
+      component.selectedCell = null;
+      expect(component.isSelectedCell('a', '2')).toBe(false);
+    });
+  });
 });

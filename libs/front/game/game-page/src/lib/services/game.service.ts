@@ -22,6 +22,11 @@ export class GameService {
       .pipe(map(game => this.toGameInfo(game)));
   }
 
+  public sendMove(origin: string, destination: string): void {
+    console.log('sending the move', origin, destination);
+    this.communicationService.sendEvent(GameEventName.GAME_MOVE, {origin: origin, destination: destination});
+  }
+
   private toGameInfo(game: Game): GameInfo {
     const userName = this.userService.getUser()?.name;
 

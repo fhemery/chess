@@ -9,5 +9,6 @@ export const enum GameEventName {
   GAME_FOUND = 'game:found',
   GAME_STATUS = 'game:status',
   GAME_STATUS_UPDATE = 'game:status:update',
-  GAME_STATUS_KO = 'game:status:ko'
+  GAME_STATUS_KO = 'game:status:ko',
+  GAME_MOVE = 'game:move'
 }

@@ -1,7 +1,8 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 
 import { GameChessCellComponent } from './game-chess-cell.component';
 import { GamePieceType, PlayerColor } from '@chess/shared/types';
+import { take } from 'rxjs/operators';
 
 describe('GameChesscellComponent', () => {
   let component: GameChessCellComponent;
@@ -30,5 +31,18 @@ describe('GameChesscellComponent', () => {
         'assets/chess_piece/black_rook.png'
       );
     });
+  });
+
+  describe('onCellClicked', () => {
+    it('should emit cell has been clicked', fakeAsync(() => {
+      let cellName = '';
+      component.cellClicked.pipe(take(1)).subscribe(n => cellName = n);
+
+      component.name = 'b7';
+      component.onCellClicked();
+      tick();
+
+      expect(cellName).toBe('b7');
+    }));
   });
 });
