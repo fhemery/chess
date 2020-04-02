@@ -16,7 +16,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@chess/lobby-page": ["libs/front/lobby/lobby-page/src/index.ts"],
+      "@chess/front/lobby/lobby-page": ["libs/front/lobby/lobby-page/src/index.ts"],
       "@chess/shared/types": ["libs/shared/types/src/index.ts"],
       "@chess/back/user": ["libs/back/user/src/index.ts"],
       "@chess/front/user": ["libs/front/user/src/index.ts"],

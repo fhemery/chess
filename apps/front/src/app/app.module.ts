@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
-import { LobbyPageComponent } from '@chess/lobby-page';
+import { LobbyPageComponent } from '@chess/front/lobby/lobby-page';
 import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 import { CookieService } from 'ngx-cookie-service';
 
