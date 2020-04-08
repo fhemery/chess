@@ -6,8 +6,10 @@ import { GameSearchService } from './game-search/game-search.service';
 import { GameService } from './game/game.service';
 import { MatchMakingService } from './match-making/match-making.service';
 import { GameStatusService } from './game-status/game-status.service';
+import { GamePlayService } from './game-play/game-play.service';
 
 @Module({
-  providers: [GameGateway, ChannelService, ChannelRepository, GameSearchService, GameService, MatchMakingService, GameStatusService],
+  providers: [GameGateway, ChannelService, ChannelRepository, GameSearchService, GameService, MatchMakingService,
+    GameStatusService, GamePlayService],
 })
 export class GameModule {}

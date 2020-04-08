@@ -8,4 +8,9 @@ export interface GameEvent {
   data?: any;
 }
 
+export interface PlayStroke {
+  origin: string;
+  destination: string;
+}
+
 export type UserId = string;

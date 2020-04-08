@@ -32,6 +32,11 @@ export class GameService {
     return newGame;
   }
 
+  public updateGame(game: Game): void {
+    this.gameMap.set(game.whitePlayer, game);
+    this.gameMap.set(game.blackPlayer, game);
+  }
+
   private createStartingBoard(): GameBoard {
     const board: GameBoard = {};
     const backPieces: GamePieceType[] = [

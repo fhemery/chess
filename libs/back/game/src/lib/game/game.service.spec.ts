@@ -1,10 +1,5 @@
 import { GameService } from './game.service';
-import {
-  Game,
-  GamePiece,
-  GamePieceType,
-  PlayerColor
-} from '@chess/shared/types';
+import { Game, GamePiece, GamePieceType, PlayerColor } from '@chess/shared/types';
 
 describe('gameService', () => {
   let gameService: GameService;
@@ -96,6 +91,17 @@ describe('gameService', () => {
       gameService.createGame('alice', 'bob');
       expect(gameService.isPlayerAlreadyInGame('alice')).toBe(true);
       expect(gameService.isPlayerAlreadyInGame('bob')).toBe(true);
+    });
+  });
+
+  describe('updateGame', () => {
+    it('should update the game entry for the two players', () => {
+      const game = gameService.createGame('alice', 'bob');
+      const gameUpdate = {...game, currentTurn: PlayerColor.BLACK};
+      gameService.updateGame(gameUpdate);
+
+      expect(gameService.getGameByUser('alice').currentTurn).toBe(PlayerColor.BLACK);
+      expect(gameService.getGameByUser('bob').currentTurn).toBe(PlayerColor.BLACK);
     });
   });
 });
