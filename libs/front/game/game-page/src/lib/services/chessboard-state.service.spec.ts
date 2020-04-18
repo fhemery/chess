@@ -1,7 +1,7 @@
 import { fakeAsync, tick } from '@angular/core/testing';
 
 import { ChessboardStateService } from './chessboard-state.service';
-import * as utils from '@chess/shared/chess-utils';
+import  {chessBoardUtils} from '@chess/shared/chess-utils';
 import { GameInfo } from '../model/game-info';
 import { GamePieceType, PlayerColor } from '@chess/shared/types';
 import { takeUntil } from 'rxjs/operators';
@@ -39,7 +39,7 @@ describe('ChessboardStateService', () => {
       .pipe(takeUntil(unsubscribe$))
       .subscribe(cell => (selectedCell = cell));
 
-    jest.spyOn(utils, 'isMoveValid').mockReturnValue(false);
+    jest.spyOn(chessBoardUtils, 'isMoveValid').mockReturnValue(false);
   });
 
   afterEach(() => {
@@ -57,7 +57,7 @@ describe('ChessboardStateService', () => {
 
   describe('cellClicked function', () => {
     it('should set provided cell as selected if player has to play, and selects his piece', fakeAsync(() => {
-      jest.spyOn(utils, 'getPieceOnCell').mockReturnValue(gameInfo.board.d3);
+      jest.spyOn(chessBoardUtils, 'getPieceOnCell').mockReturnValue(gameInfo.board.d3);
 
       service.cellClicked('d3', gameInfo);
       tick();
@@ -66,13 +66,13 @@ describe('ChessboardStateService', () => {
     }));
 
     const fillSelectedCell = () => {
-      jest.spyOn(utils, 'getPieceOnCell').mockReturnValue(gameInfo.board.d3);
+      jest.spyOn(chessBoardUtils, 'getPieceOnCell').mockReturnValue(gameInfo.board.d3);
       service.cellClicked('d3', gameInfo);
     };
 
     it('should swap selection if user selects another piece', fakeAsync(() => {
       fillSelectedCell();
-      jest.spyOn(utils, 'getPieceOnCell').mockReturnValue(gameInfo.board.d4);
+      jest.spyOn(chessBoardUtils, 'getPieceOnCell').mockReturnValue(gameInfo.board.d4);
 
       service.cellClicked('d4', gameInfo);
       tick();
@@ -81,7 +81,7 @@ describe('ChessboardStateService', () => {
     }));
 
     it('should empty cell if cell was already provided', fakeAsync(() => {
-      jest.spyOn(utils, 'getPieceOnCell').mockReturnValue(gameInfo.board.d3);
+      jest.spyOn(chessBoardUtils, 'getPieceOnCell').mockReturnValue(gameInfo.board.d3);
 
       service.cellClicked('d3', gameInfo);
       service.cellClicked('d3', gameInfo);
@@ -93,7 +93,7 @@ describe('ChessboardStateService', () => {
     it('should set empty cell if user clicks on an empty cell', fakeAsync(() => {
       fillSelectedCell();
 
-      jest.spyOn(utils, 'getPieceOnCell').mockReturnValue(null);
+      jest.spyOn(chessBoardUtils, 'getPieceOnCell').mockReturnValue(null);
       service.cellClicked('b2', gameInfo);
       tick();
 
@@ -103,7 +103,7 @@ describe('ChessboardStateService', () => {
     it('should set empty cell if user clicks on a piece of the other color', fakeAsync(() => {
       fillSelectedCell();
 
-      jest.spyOn(utils, 'getPieceOnCell').mockReturnValue(gameInfo.board.g7);
+      jest.spyOn(chessBoardUtils, 'getPieceOnCell').mockReturnValue(gameInfo.board.g7);
       service.cellClicked('g7', gameInfo);
       tick();
 
@@ -112,7 +112,7 @@ describe('ChessboardStateService', () => {
 
     it('should not selected cell if it is not player turn', fakeAsync(() => {
       gameInfo.isMyTurn = false;
-      jest.spyOn(utils, 'getPieceOnCell').mockReturnValue(gameInfo.board.d3);
+      jest.spyOn(chessBoardUtils, 'getPieceOnCell').mockReturnValue(gameInfo.board.d3);
 
       service.cellClicked('d3', gameInfo);
       tick();
@@ -122,8 +122,8 @@ describe('ChessboardStateService', () => {
 
     it('should send played stroke if move is valid', fakeAsync(() => {
       fillSelectedCell();
-      jest.spyOn(utils, 'isMoveValid').mockReturnValue(true);
-      jest.spyOn(utils, 'getPieceOnCell').mockReturnValue(null);
+      jest.spyOn(chessBoardUtils, 'isMoveValid').mockReturnValue(true);
+      jest.spyOn(chessBoardUtils, 'getPieceOnCell').mockReturnValue(null);
 
       service.cellClicked('e4', gameInfo);
       tick();

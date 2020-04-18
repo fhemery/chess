@@ -7,6 +7,7 @@ import {
 } from '@chess/shared/types';
 import { GameService } from '../game/game.service';
 import { ChannelService } from '../channel/channel.service';
+import { chessBoardUtils } from '@chess/shared/chess-utils';
 
 @Injectable()
 export class GamePlayService {
@@ -17,9 +18,14 @@ export class GamePlayService {
 
   public playStroke(playerId: UserId, stroke: PlayStroke) {
     const game = this.gameService.getGameByUser(playerId);
+    const board = game.board;
+
+    if (!chessBoardUtils.isMoveValid(stroke.origin, stroke.destination, board)){
+      this.channelService.sendEvent(playerId, {event: GameEventName.GAME_MOVE_INVALID});
+      return;
+    }
 
     // Play stroke
-    const board = game.board;
     board[stroke.destination] = board[stroke.origin];
     delete board[stroke.origin];
     game.currentTurn =

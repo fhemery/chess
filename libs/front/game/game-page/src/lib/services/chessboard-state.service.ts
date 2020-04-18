@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { GameInfo } from '../model/game-info';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { getPieceOnCell, isMoveValid } from '@chess/shared/chess-utils';
+import { chessBoardUtils } from '@chess/shared/chess-utils';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { GameService } from './game.service';
 
@@ -23,14 +23,14 @@ export class ChessboardStateService {
       return;
     }
 
-    const piece = getPieceOnCell(cellName, game.board);
+    const piece = chessBoardUtils.getPieceOnCell(cellName, game.board);
     if (piece?.color === game.playAs) {
       this.selectedCellSubject.next(cellName);
       return;
     }
 
     const currentSelectedCell = this.selectedCellSubject.getValue();
-    if (currentSelectedCell && isMoveValid(currentSelectedCell, cellName, game.board)) {
+    if (currentSelectedCell && chessBoardUtils.isMoveValid(currentSelectedCell, cellName, game.board)) {
       this.selectedCellSubject.next(null);
       this.gameService.sendMove(currentSelectedCell, cellName);
       return;

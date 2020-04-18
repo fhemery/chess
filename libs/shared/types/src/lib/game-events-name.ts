@@ -10,5 +10,6 @@ export const enum GameEventName {
   GAME_STATUS = 'game:status',
   GAME_STATUS_UPDATE = 'game:status:update',
   GAME_STATUS_KO = 'game:status:ko',
-  GAME_MOVE = 'game:move'
+  GAME_MOVE = 'game:move',
+  GAME_MOVE_INVALID = 'game:move:invalid'
 }

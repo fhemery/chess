@@ -7,6 +7,7 @@ import {
   PlayerColor,
   GameEventName
 } from '@chess/shared/types';
+import { chessBoardUtils } from '@chess/shared/chess-utils';
 import { ChannelService } from '../channel/channel.service';
 
 describe('GamePlayService', () => {
@@ -16,6 +17,7 @@ describe('GamePlayService', () => {
 
   beforeEach(async () => {
     gameService = { getGameByUser: jest.fn(), updateGame: jest.fn() };
+
     channelService = { sendEvent: jest.fn() };
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -56,33 +58,53 @@ describe('GamePlayService', () => {
           checked: null
         };
 
-        gameService.getGameByUser.mockReturnValue({...game});
-
-        service.playStroke('alice', { origin: 'd4', destination: 'd5' });
-
-        expectedGameResult = {
-          ...game,
-          board: {
-            d5: { color: PlayerColor.WHITE, piece: GamePieceType.Pawn }
-          },
-          currentTurn: PlayerColor.BLACK
-        };
+        gameService.getGameByUser.mockReturnValue({ ...game });
       });
 
-      it('should warn the two players that move is valid', () => {
-        expect(channelService.sendEvent).toHaveBeenCalledTimes(2);
-        expect(channelService.sendEvent).toHaveBeenCalledWith('alice', {
-          event: GameEventName.GAME_STATUS_UPDATE,
-          data: expectedGameResult
+      describe('when move is valid', () => {
+        beforeEach(() => {
+          chessBoardUtils.isMoveValid = () => true;
+          service.playStroke('alice', { origin: 'd4', destination: 'd5' });
+
+          expectedGameResult = {
+            ...game,
+            board: {
+              d5: { color: PlayerColor.WHITE, piece: GamePieceType.Pawn }
+            },
+            currentTurn: PlayerColor.BLACK
+          };
         });
-        expect(channelService.sendEvent).toHaveBeenCalledWith('bob', {
-          event: GameEventName.GAME_STATUS_UPDATE,
-          data: expectedGameResult
+
+        it('should warn the two players that move is valid', () => {
+          expect(channelService.sendEvent).toHaveBeenCalledTimes(2);
+          expect(channelService.sendEvent).toHaveBeenCalledWith('alice', {
+            event: GameEventName.GAME_STATUS_UPDATE,
+            data: expectedGameResult
+          });
+          expect(channelService.sendEvent).toHaveBeenCalledWith('bob', {
+            event: GameEventName.GAME_STATUS_UPDATE,
+            data: expectedGameResult
+          });
+        });
+
+        it('should update the game', () => {
+          expect(gameService.updateGame).toHaveBeenCalledWith(
+            expectedGameResult
+          );
         });
       });
 
-      it('should update the game', () => {
-        expect(gameService.updateGame).toHaveBeenCalledWith(expectedGameResult);
+      describe('when move is invalid', () => {
+        beforeEach(() => {
+          chessBoardUtils.isMoveValid = () => false;
+          service.playStroke('alice', { origin: 'd4', destination: 'd5' });
+        });
+
+        it('should send invalid move to the user', () => {
+          expect(channelService.sendEvent).toHaveBeenCalledWith('alice', {
+            event: GameEventName.GAME_MOVE_INVALID
+          });
+        });
       });
     });
   });
